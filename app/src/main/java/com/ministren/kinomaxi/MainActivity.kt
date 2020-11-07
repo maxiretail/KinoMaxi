@@ -9,10 +9,14 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    private val filmFramesAdapter = FilmFramesAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.filmFramesView.adapter = filmFramesAdapter
 
         val film = Film(
                 id = 263531,
@@ -31,6 +35,16 @@ class MainActivity : AppCompatActivity() {
                         "https://kinopoiskapiunofficial.tech/images/frames/kp/kadr/sm_1941719.jpg",
                         "https://kinopoiskapiunofficial.tech/images/frames/kp/kadr/sm_1937806.jpg",
                         "https://kinopoiskapiunofficial.tech/images/frames/kp/kadr/sm_1937805.jpg",
+                        "https://kinopoiskapiunofficial.tech/images/frames/kp/kadr/sm_1937804.jpg",
+                        "https://kinopoiskapiunofficial.tech/images/frames/kp/kadr/sm_1892295.jpg",
+                        "https://kinopoiskapiunofficial.tech/images/frames/kp/kadr/sm_1892294.jpg",
+                        "https://kinopoiskapiunofficial.tech/images/frames/kp/kadr/sm_1882554.jpg",
+                        "https://kinopoiskapiunofficial.tech/images/frames/kp/kadr/sm_1882553.jpg",
+                        "https://kinopoiskapiunofficial.tech/images/frames/kp/kadr/sm_1882552.jpg",
+                        "https://kinopoiskapiunofficial.tech/images/frames/kp/kadr/sm_1882551.jpg",
+                        "https://kinopoiskapiunofficial.tech/images/frames/kp/kadr/sm_1882550.jpg",
+                        "https://kinopoiskapiunofficial.tech/images/frames/kp/kadr/sm_1880044.jpg",
+                        "https://kinopoiskapiunofficial.tech/images/frames/kp/kadr/sm_1880043.jpg",
                 )
         )
         showFilmInfo(film)
@@ -53,12 +67,6 @@ class MainActivity : AppCompatActivity() {
             Glide.with(this@MainActivity).load(film.posterUrl).into(filmPoster)
         }
 
-        with(Glide.with(this)) {
-            load(film.frameUrls[0]).into(binding.filmFrame1)
-            load(film.frameUrls[1]).into(binding.filmFrame2)
-            load(film.frameUrls[2]).into(binding.filmFrame3)
-            load(film.frameUrls[3]).into(binding.filmFrame4)
-            load(film.frameUrls[4]).into(binding.filmFrame5)
-        }
+        filmFramesAdapter.setItems(film.frameUrls)
     }
 }
