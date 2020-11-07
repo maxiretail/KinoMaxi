@@ -23,6 +23,7 @@
             app:layout_constraintWidth_percent="0.4" />
 
         <include
+            android:id="@+id/film_details_layout"
             layout="@layout/layout_film_details"
             android:layout_width="0dp"
             android:layout_height="0dp"
