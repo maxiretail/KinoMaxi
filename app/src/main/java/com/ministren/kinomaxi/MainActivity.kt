@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         filmNameEngTextView.text = film.nameEng
         filmSloganTextView.text = film.slogan
         filmYearTextView.text = film.year.toString()
-        filmLengthTextView.text = getString(R.string.film_length, film.length)
+        filmLengthTextView.text = getString(R.string.film_length_value, film.length)
         filmDescriptionTextView.text = film.description
         filmAgeRatingTextView.text = getString(R.string.film_age_rating, film.ageRating)
     }
