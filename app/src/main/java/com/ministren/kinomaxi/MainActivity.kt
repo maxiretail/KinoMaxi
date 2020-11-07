@@ -21,7 +21,14 @@ class MainActivity : AppCompatActivity() {
                 length = 137,
                 description = "Локи, сводный брат Тора, возвращается, и в этот раз он не один. Земля оказывается на грани порабощения, и только лучшие из лучших могут спасти человечество. Глава международной организации Щ.И.Т. Ник Фьюри собирает выдающихся поборников справедливости и добра, чтобы отразить атаку. Под предводительством Капитана Америки Железный Человек, Тор, Невероятный Халк, Соколиный Глаз и Чёрная Вдова вступают в войну с захватчиком.",
                 ageRating = 12,
-                posterUrl = "https://kinopoiskapiunofficial.tech/images/posters/kp_small/263531.jpg"
+                posterUrl = "https://kinopoiskapiunofficial.tech/images/posters/kp_small/263531.jpg",
+                frameUrls = listOf(
+                        "https://kinopoiskapiunofficial.tech/images/frames/kp/kadr/sm_1957128.jpg",
+                        "https://kinopoiskapiunofficial.tech/images/frames/kp/kadr/sm_1941720.jpg",
+                        "https://kinopoiskapiunofficial.tech/images/frames/kp/kadr/sm_1941719.jpg",
+                        "https://kinopoiskapiunofficial.tech/images/frames/kp/kadr/sm_1937806.jpg",
+                        "https://kinopoiskapiunofficial.tech/images/frames/kp/kadr/sm_1937805.jpg",
+                )
         )
         showFilmInfo(film)
     }
@@ -47,5 +54,16 @@ class MainActivity : AppCompatActivity() {
 
         val filmPosterImageView = findViewById<ImageView>(R.id.film_poster)
         Glide.with(this).load(film.posterUrl).into(filmPosterImageView)
+
+        val filmFrame1ImageView = findViewById<ImageView>(R.id.film_frame_1)
+        val filmFrame2ImageView = findViewById<ImageView>(R.id.film_frame_2)
+        val filmFrame3ImageView = findViewById<ImageView>(R.id.film_frame_3)
+        val filmFrame4ImageView = findViewById<ImageView>(R.id.film_frame_4)
+        val filmFrame5ImageView = findViewById<ImageView>(R.id.film_frame_5)
+        Glide.with(this).load(film.frameUrls[0]).into(filmFrame1ImageView)
+        Glide.with(this).load(film.frameUrls[1]).into(filmFrame2ImageView)
+        Glide.with(this).load(film.frameUrls[2]).into(filmFrame3ImageView)
+        Glide.with(this).load(film.frameUrls[3]).into(filmFrame4ImageView)
+        Glide.with(this).load(film.frameUrls[4]).into(filmFrame5ImageView)
     }
 }
