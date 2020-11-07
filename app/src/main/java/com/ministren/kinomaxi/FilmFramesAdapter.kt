@@ -11,7 +11,7 @@ import com.ministren.kinomaxi.databinding.ItemFilmFrameBinding
  */
 class FilmFramesAdapter : RecyclerView.Adapter<FilmFramesAdapter.FilmFrameViewHolder>() {
 
-    private val items = mutableListOf<String>()
+    private val items = mutableListOf<FilmFrame>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmFrameViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -20,7 +20,7 @@ class FilmFramesAdapter : RecyclerView.Adapter<FilmFramesAdapter.FilmFrameViewHo
     }
 
     override fun onBindViewHolder(holder: FilmFrameViewHolder, position: Int) {
-        holder.setImageUrl(items[position])
+        holder.setData(items[position])
     }
 
     override fun getItemCount(): Int = items.size
@@ -28,7 +28,7 @@ class FilmFramesAdapter : RecyclerView.Adapter<FilmFramesAdapter.FilmFrameViewHo
     /**
      * Установить новый список кадров [frames] для отображения
      */
-    fun setItems(frames: List<String>) {
+    fun setItems(frames: List<FilmFrame>) {
         items.clear()
         items.addAll(frames)
         notifyDataSetChanged()
@@ -42,10 +42,10 @@ class FilmFramesAdapter : RecyclerView.Adapter<FilmFramesAdapter.FilmFrameViewHo
         private val imageView = binding.root
 
         /**
-         * Загрузить изображение по ссылке [imageUrl] и отобразить его в текущем элементе списка
+         * Загрузить изображение для предпросмотра кадра [frame] и отобразить его в текущем элементе списка
          */
-        fun setImageUrl(imageUrl: String) {
-            Glide.with(imageView).load(imageUrl).into(imageView)
+        fun setData(frame: FilmFrame) {
+            Glide.with(imageView).load(frame.previewUrl).into(imageView)
         }
     }
 

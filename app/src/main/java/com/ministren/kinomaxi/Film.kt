@@ -14,5 +14,5 @@ data class Film(
         val description: String,
         val ageRating: Int,
         val posterUrl: String,
-        val frameUrls: List<String>,
+        val frames: List<FilmFrame>,
 )
