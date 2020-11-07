@@ -1,8 +1,10 @@
 package com.ministren.kinomaxi
 
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +20,8 @@ class MainActivity : AppCompatActivity() {
                 year = 2012,
                 length = 137,
                 description = "Локи, сводный брат Тора, возвращается, и в этот раз он не один. Земля оказывается на грани порабощения, и только лучшие из лучших могут спасти человечество. Глава международной организации Щ.И.Т. Ник Фьюри собирает выдающихся поборников справедливости и добра, чтобы отразить атаку. Под предводительством Капитана Америки Железный Человек, Тор, Невероятный Халк, Соколиный Глаз и Чёрная Вдова вступают в войну с захватчиком.",
-                ageRating = 12
+                ageRating = 12,
+                posterUrl = "https://kinopoiskapiunofficial.tech/images/posters/kp_small/263531.jpg"
         )
         showFilmInfo(film)
     }
@@ -41,5 +44,8 @@ class MainActivity : AppCompatActivity() {
         filmLengthTextView.text = getString(R.string.film_length_value, film.length)
         filmDescriptionTextView.text = film.description
         filmAgeRatingTextView.text = getString(R.string.film_age_rating, film.ageRating)
+
+        val filmPosterImageView = findViewById<ImageView>(R.id.film_poster)
+        Glide.with(this).load(film.posterUrl).into(filmPosterImageView)
     }
 }
