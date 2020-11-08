@@ -1,6 +1,7 @@
 package com.ministren.kinomaxi
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.ministren.kinomaxi.databinding.ActivityMainBinding
@@ -19,8 +20,25 @@ class MainActivity : AppCompatActivity() {
         binding.filmFramesView.adapter = filmFramesAdapter
 
         val filmViewModel = FilmViewModel()
-        filmViewModel.film.observe(this) { film ->
-            film?.let { showFilmInfo(it) }
+        filmViewModel.state.observe(this) { state ->
+            when (state) {
+                FilmViewState.Loading -> {
+                    binding.loaderView.visibility = View.VISIBLE
+                    binding.contentView.visibility = View.GONE
+                    binding.errorView.visibility = View.GONE
+                }
+                FilmViewState.Error -> {
+                    binding.loaderView.visibility = View.GONE
+                    binding.contentView.visibility = View.GONE
+                    binding.errorView.visibility = View.VISIBLE
+                }
+                is FilmViewState.Loaded -> {
+                    binding.loaderView.visibility = View.GONE
+                    binding.contentView.visibility = View.VISIBLE
+                    binding.errorView.visibility = View.GONE
+                    showFilmInfo(state.film)
+                }
+            }
         }
         filmViewModel.loadFilmById(263531)
     }

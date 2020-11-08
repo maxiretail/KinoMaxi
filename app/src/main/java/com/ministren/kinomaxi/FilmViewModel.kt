@@ -8,17 +8,22 @@ import kotlinx.coroutines.launch
 
 class FilmViewModel : ViewModel() {
 
-    private val filmLiveData = MutableLiveData<Film?>()
+    private val stateLiveData = MutableLiveData<FilmViewState>()
 
-    val film: LiveData<Film?>
-        get() = filmLiveData
+    val state: LiveData<FilmViewState>
+        get() = stateLiveData
 
     fun loadFilmById(id: Long) {
         viewModelScope.launch {
-            val filmDataResponse = App.instance.apiService.getFilmData(id)
-            val filmFramesResponse = App.instance.apiService.getFilmFrames(id)
-            val film = getFilmFromRest(filmDataResponse, filmFramesResponse)
-            filmLiveData.postValue(film)
+            stateLiveData.postValue(FilmViewState.Loading)
+            try {
+                val filmDataResponse = App.instance.apiService.getFilmData(id)
+                val filmFramesResponse = App.instance.apiService.getFilmFrames(id)
+                val film = getFilmFromRest(filmDataResponse, filmFramesResponse)
+                stateLiveData.postValue(FilmViewState.Loaded(film))
+            } catch (exception: Exception) {
+                stateLiveData.postValue(FilmViewState.Error)
+            }
         }
     }
 
