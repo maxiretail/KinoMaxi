@@ -1,5 +1,6 @@
 package com.ministren.kinomaxi
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,6 +23,7 @@ class FilmViewModel : ViewModel() {
                 val film = getFilmFromRest(filmDataResponse, filmFramesResponse)
                 stateLiveData.postValue(FilmViewState.Loaded(film))
             } catch (exception: Exception) {
+                Log.d("FILM_LOG", exception.toString())
                 stateLiveData.postValue(FilmViewState.Error)
             }
         }
@@ -37,7 +39,7 @@ class FilmViewModel : ViewModel() {
                 nameRus = filmDataResponse.film.nameRus,
                 nameEng = filmDataResponse.film.nameEng,
                 slogan = filmDataResponse.film.slogan,
-                year = filmDataResponse.film.year.toInt(),
+                year = filmDataResponse.film.year,
                 length = with(filmDataResponse.film.length) {
                     val (hours, minutes) = split(':').takeLast(2)
                     hours.toInt() * 60 + minutes.toInt()

@@ -24,4 +24,9 @@ sealed class FilmViewState {
             val film: Film,
     ) : FilmViewState()
 
+    /**
+     * Происходит обновление
+     */
+    object Refreshing : FilmViewState()
+
 }

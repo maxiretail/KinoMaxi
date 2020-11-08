@@ -19,7 +19,7 @@ data class RestFilm(
         @SerializedName("posterUrlPreview") val posterUrlPreview: String,
         @SerializedName("year") val year: String,
         @SerializedName("filmLength") val length: String,
-        @SerializedName("slogan") val slogan: String,
+        @SerializedName("slogan") val slogan: String?,
         @SerializedName("description") val description: String,
         @SerializedName("ratingAgeLimits") val ageRating: Int,
         @SerializedName("genres") val genres: List<RestFilmGenre>,
