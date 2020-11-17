@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.ministren.kinomaxi.R
 import com.ministren.kinomaxi.databinding.FragmentMainPageBinding
 import com.ministren.kinomaxi.di.ViewModelFactory
@@ -20,7 +20,7 @@ class MainPageFragment : Fragment() {
     private var _binding: FragmentMainPageBinding? = null
     private val binding get() = _binding!!
 
-    private val mainPageViewModel: MainPageViewModel by activityViewModels() { ViewModelFactory.instance }
+    private val mainPageViewModel: MainPageViewModel by viewModels() { ViewModelFactory.instance }
     private val topBestFilmsAdapter = TopFilmsAdapter(this::onFilmClick)
     private val topPopularFilmsAdapter = TopFilmsAdapter(this::onFilmClick)
     private val topAwaitFilmsAdapter = TopFilmsAdapter(this::onFilmClick)

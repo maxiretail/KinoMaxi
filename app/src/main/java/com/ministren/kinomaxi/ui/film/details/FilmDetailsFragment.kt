@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.ministren.kinomaxi.R
 import com.ministren.kinomaxi.databinding.FragmentFilmDetailsBinding
@@ -18,7 +18,7 @@ class FilmDetailsFragment : Fragment() {
     private var _binding: FragmentFilmDetailsBinding? = null
     private val binding get() = _binding!!
 
-    private val filmViewModel: FilmViewModel by activityViewModels() { ViewModelFactory.instance }
+    private val filmViewModel: FilmViewModel by viewModels() { ViewModelFactory.instance }
     private val filmFramesAdapter = FilmFramesAdapter()
 
     private var filmId: Long = 0
