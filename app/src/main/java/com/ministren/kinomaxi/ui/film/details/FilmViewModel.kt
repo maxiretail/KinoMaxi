@@ -5,14 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ministren.kinomaxi.App
-import com.ministren.kinomaxi.model.Film
-import com.ministren.kinomaxi.model.FilmFrame
-import com.ministren.kinomaxi.network.RestFilmDataResponse
-import com.ministren.kinomaxi.network.RestFilmFramesResponse
+import com.ministren.kinomaxi.business.GetFilmById
 import kotlinx.coroutines.launch
 
-class FilmViewModel : ViewModel() {
+class FilmViewModel(
+    private val getFilmById: GetFilmById,
+) : ViewModel() {
 
     private val stateLiveData = MutableLiveData<FilmViewState>()
 
@@ -23,39 +21,13 @@ class FilmViewModel : ViewModel() {
         viewModelScope.launch {
             stateLiveData.postValue(FilmViewState.Loading)
             try {
-                val filmDataResponse = App.instance.apiService.getFilmData(id)
-                val filmFramesResponse = App.instance.apiService.getFilmFrames(id)
-                val film = getFilmFromRest(filmDataResponse, filmFramesResponse)
+                val film = getFilmById(id)
                 stateLiveData.postValue(FilmViewState.Loaded(film))
             } catch (exception: Exception) {
                 Log.d("FILM_LOG", exception.toString())
                 stateLiveData.postValue(FilmViewState.Error)
             }
         }
-    }
-
-    private fun getFilmFromRest(
-        filmDataResponse: RestFilmDataResponse,
-        filmFramesResponse: RestFilmFramesResponse,
-    ): Film {
-        return Film(
-            id = filmDataResponse.film.id,
-            genres = filmDataResponse.film.genres.map { it.name },
-            nameRus = filmDataResponse.film.nameRus,
-            nameEng = filmDataResponse.film.nameEng,
-            slogan = filmDataResponse.film.slogan,
-            year = filmDataResponse.film.year,
-            length = with(filmDataResponse.film.length) {
-                val (hours, minutes) = split(':').takeLast(2)
-                hours.toInt() * 60 + minutes.toInt()
-            },
-            description = filmDataResponse.film.description,
-            ageRating = filmDataResponse.film.ageRating,
-            posterUrl = filmDataResponse.film.posterUrlPreview,
-            frames = filmFramesResponse.frames.map {
-                FilmFrame(it.imageUrl, it.previewUrl)
-            }
-        )
     }
 
 }

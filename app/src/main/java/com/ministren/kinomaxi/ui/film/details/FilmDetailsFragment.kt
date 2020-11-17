@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.ministren.kinomaxi.R
 import com.ministren.kinomaxi.databinding.FragmentFilmDetailsBinding
+import com.ministren.kinomaxi.di.ViewModelFactory
 import com.ministren.kinomaxi.model.Film
 import com.ministren.kinomaxi.ui.film.frames.FilmFramesAdapter
 
@@ -17,7 +18,7 @@ class FilmDetailsFragment : Fragment() {
     private var _binding: FragmentFilmDetailsBinding? = null
     private val binding get() = _binding!!
 
-    private val filmViewModel: FilmViewModel by activityViewModels()
+    private val filmViewModel: FilmViewModel by activityViewModels() { ViewModelFactory() }
     private val filmFramesAdapter = FilmFramesAdapter()
 
     override fun onCreateView(
