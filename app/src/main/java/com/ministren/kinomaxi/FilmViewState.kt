@@ -20,9 +20,7 @@ sealed class FilmViewState {
      *
      * [film] - информация о фильме
      */
-    data class Loaded(
-            val film: Film,
-    ) : FilmViewState()
+    data class Loaded(val film: Film) : FilmViewState()
 
     /**
      * Происходит обновление

@@ -37,7 +37,9 @@ class FilmFramesAdapter : RecyclerView.Adapter<FilmFramesAdapter.FilmFrameViewHo
     /**
      * Класс для отображения элемента списка кадров бильма
      */
-    class FilmFrameViewHolder(binding: ItemFilmFrameBinding) : RecyclerView.ViewHolder(binding.root) {
+    class FilmFrameViewHolder(
+        binding: ItemFilmFrameBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         private val imageView = binding.root
 

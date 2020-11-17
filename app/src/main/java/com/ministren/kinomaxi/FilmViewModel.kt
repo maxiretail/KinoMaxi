@@ -30,26 +30,26 @@ class FilmViewModel : ViewModel() {
     }
 
     private fun getFilmFromRest(
-            filmDataResponse: RestFilmDataResponse,
-            filmFramesResponse: RestFilmFramesResponse,
+        filmDataResponse: RestFilmDataResponse,
+        filmFramesResponse: RestFilmFramesResponse,
     ): Film {
         return Film(
-                id = filmDataResponse.film.id,
-                genres = filmDataResponse.film.genres.map { it.name },
-                nameRus = filmDataResponse.film.nameRus,
-                nameEng = filmDataResponse.film.nameEng,
-                slogan = filmDataResponse.film.slogan,
-                year = filmDataResponse.film.year,
-                length = with(filmDataResponse.film.length) {
-                    val (hours, minutes) = split(':').takeLast(2)
-                    hours.toInt() * 60 + minutes.toInt()
-                },
-                description = filmDataResponse.film.description,
-                ageRating = filmDataResponse.film.ageRating,
-                posterUrl = filmDataResponse.film.posterUrlPreview,
-                frames = filmFramesResponse.frames.map {
-                    FilmFrame(it.imageUrl, it.previewUrl)
-                }
+            id = filmDataResponse.film.id,
+            genres = filmDataResponse.film.genres.map { it.name },
+            nameRus = filmDataResponse.film.nameRus,
+            nameEng = filmDataResponse.film.nameEng,
+            slogan = filmDataResponse.film.slogan,
+            year = filmDataResponse.film.year,
+            length = with(filmDataResponse.film.length) {
+                val (hours, minutes) = split(':').takeLast(2)
+                hours.toInt() * 60 + minutes.toInt()
+            },
+            description = filmDataResponse.film.description,
+            ageRating = filmDataResponse.film.ageRating,
+            posterUrl = filmDataResponse.film.posterUrlPreview,
+            frames = filmFramesResponse.frames.map {
+                FilmFrame(it.imageUrl, it.previewUrl)
+            }
         )
     }
 
