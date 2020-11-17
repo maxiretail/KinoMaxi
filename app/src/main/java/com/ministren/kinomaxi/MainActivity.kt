@@ -3,7 +3,7 @@ package com.ministren.kinomaxi
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.ministren.kinomaxi.databinding.ActivityMainBinding
-import com.ministren.kinomaxi.ui.film.details.FilmDetailsFragment
+import com.ministren.kinomaxi.ui.main.MainPageFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportFragmentManager.beginTransaction()
-            .replace(binding.root.id, FilmDetailsFragment())
+            .replace(binding.root.id, MainPageFragment())
             .commit()
     }
 

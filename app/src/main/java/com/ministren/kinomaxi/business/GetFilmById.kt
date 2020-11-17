@@ -1,6 +1,6 @@
 package com.ministren.kinomaxi.business
 
-import com.ministren.kinomaxi.model.Film
+import com.ministren.kinomaxi.entity.Film
 
 /**
  * Бизнес-сценарий загрузки детальной информации о фильме по идентификатору

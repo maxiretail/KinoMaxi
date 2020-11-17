@@ -1,7 +1,7 @@
 package com.ministren.kinomaxi.business
 
-import com.ministren.kinomaxi.model.Film
-import com.ministren.kinomaxi.model.FilmFrame
+import com.ministren.kinomaxi.entity.Film
+import com.ministren.kinomaxi.entity.FilmFrame
 import com.ministren.kinomaxi.network.ApiService
 import com.ministren.kinomaxi.network.RestFilmDataResponse
 import com.ministren.kinomaxi.network.RestFilmFramesResponse
@@ -27,7 +27,7 @@ class GetFilmByIdImpl(
             nameEng = filmDataResponse.film.nameEng,
             slogan = filmDataResponse.film.slogan,
             year = filmDataResponse.film.year,
-            length = with(filmDataResponse.film.length) {
+            length = with(filmDataResponse.film.length ?: "0:0") {
                 val (hours, minutes) = split(':').takeLast(2)
                 hours.toInt() * 60 + minutes.toInt()
             },

@@ -1,4 +1,4 @@
-package com.ministren.kinomaxi.model
+package com.ministren.kinomaxi.entity
 
 /**
  * Сущность кадра фильма

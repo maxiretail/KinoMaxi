@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.ministren.kinomaxi.R
 import com.ministren.kinomaxi.databinding.FragmentFilmDetailsBinding
 import com.ministren.kinomaxi.di.ViewModelFactory
-import com.ministren.kinomaxi.model.Film
+import com.ministren.kinomaxi.entity.Film
 import com.ministren.kinomaxi.ui.film.frames.FilmFramesAdapter
 
 class FilmDetailsFragment : Fragment() {

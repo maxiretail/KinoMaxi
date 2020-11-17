@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ministren.kinomaxi.App
 import com.ministren.kinomaxi.business.GetFilmByIdImpl
+import com.ministren.kinomaxi.business.GetTopFilmsImpl
 import com.ministren.kinomaxi.network.ApiService
 import com.ministren.kinomaxi.ui.film.details.FilmViewModel
+import com.ministren.kinomaxi.ui.main.MainPageViewModel
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -19,6 +21,9 @@ class ViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(FilmViewModel::class.java)) {
             return FilmViewModel(GetFilmByIdImpl(apiService)) as T
+        }
+        if (modelClass.isAssignableFrom(MainPageViewModel::class.java)) {
+            return MainPageViewModel(GetTopFilmsImpl(apiService)) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

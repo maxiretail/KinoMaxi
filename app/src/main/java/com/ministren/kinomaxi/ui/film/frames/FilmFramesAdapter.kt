@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ministren.kinomaxi.databinding.ItemFilmFrameBinding
-import com.ministren.kinomaxi.model.FilmFrame
+import com.ministren.kinomaxi.entity.FilmFrame
 
 /**
  * Адаптер для списка кадров бильма

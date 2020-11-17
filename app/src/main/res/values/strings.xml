@@ -6,5 +6,9 @@
     <string name="film_length_description">Продолжительность</string>
     <string name="film_length_value">%1$d мин.</string>
 
+    <string name="top_best_title">Топ 250</string>
+    <string name="top_popular_title">Топ 100 популярных</string>
+    <string name="top_await_title">Топ ожидаемых</string>
+
     <string name="error_loading">При загрузке произошла ошибка.\nПожалуйста, проверьте наличие интернет-соединения.</string>
 </resources>
