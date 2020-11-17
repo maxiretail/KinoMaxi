@@ -1,4 +1,6 @@
-package com.ministren.kinomaxi
+package com.ministren.kinomaxi.ui.film.details
+
+import com.ministren.kinomaxi.model.Film
 
 /**
  * Возможные состояния экрана детальной информации о фильме

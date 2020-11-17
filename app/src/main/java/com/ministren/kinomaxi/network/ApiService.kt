@@ -1,4 +1,4 @@
-package com.ministren.kinomaxi
+package com.ministren.kinomaxi.network
 
 import retrofit2.http.GET
 import retrofit2.http.Path

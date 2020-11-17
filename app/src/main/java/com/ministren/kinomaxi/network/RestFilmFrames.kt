@@ -1,4 +1,4 @@
-package com.ministren.kinomaxi
+package com.ministren.kinomaxi.network
 
 import com.google.gson.annotations.SerializedName
 

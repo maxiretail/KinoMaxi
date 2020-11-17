@@ -1,10 +1,15 @@
-package com.ministren.kinomaxi
+package com.ministren.kinomaxi.ui.film.details
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ministren.kinomaxi.App
+import com.ministren.kinomaxi.model.Film
+import com.ministren.kinomaxi.model.FilmFrame
+import com.ministren.kinomaxi.network.RestFilmDataResponse
+import com.ministren.kinomaxi.network.RestFilmFramesResponse
 import kotlinx.coroutines.launch
 
 class FilmViewModel : ViewModel() {

@@ -1,6 +1,7 @@
 package com.ministren.kinomaxi
 
 import android.app.Application
+import com.ministren.kinomaxi.network.ApiService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

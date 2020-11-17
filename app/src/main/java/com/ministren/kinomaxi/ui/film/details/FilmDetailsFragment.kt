@@ -1,4 +1,4 @@
-package com.ministren.kinomaxi
+package com.ministren.kinomaxi.ui.film.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
+import com.ministren.kinomaxi.R
 import com.ministren.kinomaxi.databinding.FragmentFilmDetailsBinding
+import com.ministren.kinomaxi.model.Film
+import com.ministren.kinomaxi.ui.film.frames.FilmFramesAdapter
 
 class FilmDetailsFragment : Fragment() {
 

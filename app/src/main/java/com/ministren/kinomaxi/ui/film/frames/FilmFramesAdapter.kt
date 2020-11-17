@@ -1,15 +1,15 @@
-package com.ministren.kinomaxi
+package com.ministren.kinomaxi.ui.film.frames
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.ministren.kinomaxi.databinding.ItemFilmFrameBinding
+import com.ministren.kinomaxi.model.FilmFrame
 
 /**
  * Адаптер для списка кадров бильма
  */
-class FilmFramesAdapter : RecyclerView.Adapter<FilmFramesAdapter.FilmFrameViewHolder>() {
+class FilmFramesAdapter : RecyclerView.Adapter<FilmFrameViewHolder>() {
 
     private val items = mutableListOf<FilmFrame>()
 
@@ -32,23 +32,6 @@ class FilmFramesAdapter : RecyclerView.Adapter<FilmFramesAdapter.FilmFrameViewHo
         items.clear()
         items.addAll(frames)
         notifyDataSetChanged()
-    }
-
-    /**
-     * Класс для отображения элемента списка кадров бильма
-     */
-    class FilmFrameViewHolder(
-        binding: ItemFilmFrameBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-
-        private val imageView = binding.root
-
-        /**
-         * Загрузить изображение для предпросмотра кадра [frame] и отобразить его в текущем элементе списка
-         */
-        fun setData(frame: FilmFrame) {
-            Glide.with(imageView).load(frame.previewUrl).into(imageView)
-        }
     }
 
 }
