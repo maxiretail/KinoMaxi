@@ -28,7 +28,10 @@ class ViewModelFactory : ViewModelProvider.Factory {
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 
-    private companion object {
+    companion object {
+
+        val instance = ViewModelFactory()
+
         private val httpClient: OkHttpClient = OkHttpClient.Builder()
             .addInterceptor {
                 val request = it.request().newBuilder()
@@ -44,7 +47,7 @@ class ViewModelFactory : ViewModelProvider.Factory {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        val apiService: ApiService = retrofit.create(ApiService::class.java)
+        private val apiService: ApiService = retrofit.create(ApiService::class.java)
 
     }
 

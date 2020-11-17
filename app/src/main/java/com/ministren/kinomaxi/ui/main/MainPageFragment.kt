@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.ministren.kinomaxi.R
 import com.ministren.kinomaxi.databinding.FragmentMainPageBinding
 import com.ministren.kinomaxi.di.ViewModelFactory
 import com.ministren.kinomaxi.entity.FilmsTopType
+import com.ministren.kinomaxi.ui.film.details.FilmDetailsFragment
 import com.ministren.kinomaxi.ui.main.entity.MainPageData
 import com.ministren.kinomaxi.ui.main.top.TopFilmsAdapter
 
@@ -18,16 +20,22 @@ class MainPageFragment : Fragment() {
     private var _binding: FragmentMainPageBinding? = null
     private val binding get() = _binding!!
 
-    private val mainPageViewModel: MainPageViewModel by activityViewModels() { ViewModelFactory() }
-    private val topBestFilmsAdapter = TopFilmsAdapter()
-    private val topPopularFilmsAdapter = TopFilmsAdapter()
-    private val topAwaitFilmsAdapter = TopFilmsAdapter()
+    private val mainPageViewModel: MainPageViewModel by activityViewModels() { ViewModelFactory.instance }
+    private val topBestFilmsAdapter = TopFilmsAdapter(this::onFilmClick)
+    private val topPopularFilmsAdapter = TopFilmsAdapter(this::onFilmClick)
+    private val topAwaitFilmsAdapter = TopFilmsAdapter(this::onFilmClick)
+
+    @IdRes
+    private var containerResId: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
+        container?.let {
+            containerResId = it.id
+        }
         _binding = FragmentMainPageBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -53,6 +61,13 @@ class MainPageFragment : Fragment() {
         if (mainPageViewModel.state.value == null) {
             mainPageViewModel.loadData()
         }
+    }
+
+    private fun onFilmClick(filmId: Long) {
+        parentFragmentManager.beginTransaction()
+            .replace(containerResId, FilmDetailsFragment.getInstance(filmId))
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun showNewState(state: MainPageState) {

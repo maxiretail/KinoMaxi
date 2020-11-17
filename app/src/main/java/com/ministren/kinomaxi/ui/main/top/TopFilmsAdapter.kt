@@ -9,18 +9,20 @@ import com.ministren.kinomaxi.entity.Film
 /**
  * Адаптер для списка топ фильмов
  */
-class TopFilmsAdapter : RecyclerView.Adapter<TopFilmViewHolder>() {
+class TopFilmsAdapter(
+    private val onFilmClick: (filmId: Long) -> Unit,
+) : RecyclerView.Adapter<TopFilmViewHolder>() {
 
     private val items = mutableListOf<Film>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopFilmViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemTopFilmBinding.inflate(layoutInflater)
-        return TopFilmViewHolder(binding)
+        return TopFilmViewHolder(binding, onFilmClick)
     }
 
     override fun onBindViewHolder(holder: TopFilmViewHolder, position: Int) {
-        holder.setData(items[position].posterUrl)
+        holder.setData(items[position])
     }
 
     override fun getItemCount(): Int = items.size

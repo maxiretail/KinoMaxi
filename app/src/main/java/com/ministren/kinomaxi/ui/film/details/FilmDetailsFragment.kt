@@ -18,8 +18,15 @@ class FilmDetailsFragment : Fragment() {
     private var _binding: FragmentFilmDetailsBinding? = null
     private val binding get() = _binding!!
 
-    private val filmViewModel: FilmViewModel by activityViewModels() { ViewModelFactory() }
+    private val filmViewModel: FilmViewModel by activityViewModels() { ViewModelFactory.instance }
     private val filmFramesAdapter = FilmFramesAdapter()
+
+    private var filmId: Long = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        filmId = requireArguments().getLong(ARG_FILM_ID_KEY, 0)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,13 +48,13 @@ class FilmDetailsFragment : Fragment() {
         binding.filmFramesView.adapter = filmFramesAdapter
 
         binding.root.setOnRefreshListener {
-            filmViewModel.loadFilmById(FILM_IDS.random())
+            filmViewModel.loadFilmById(filmId)
         }
 
         filmViewModel.state.observe(viewLifecycleOwner, this::showNewState)
 
         if (filmViewModel.state.value == null) {
-            filmViewModel.loadFilmById(FILM_IDS.random())
+            filmViewModel.loadFilmById(filmId)
         }
     }
 
@@ -102,10 +109,18 @@ class FilmDetailsFragment : Fragment() {
         filmFramesAdapter.setItems(film.frames)
     }
 
-    private companion object {
-        val FILM_IDS = listOf<Long>(
-            1253633, 279091, 1334853, 1190304, 1191022, 1236063, 1421546, 1072788, 402981, 996875
-        )
+    companion object {
+
+        private const val ARG_FILM_ID_KEY = "ARG_FILM_ID"
+
+        fun getInstance(filmId: Long): FilmDetailsFragment {
+            return FilmDetailsFragment().apply {
+                arguments = Bundle().apply {
+                    putLong(ARG_FILM_ID_KEY, filmId)
+                }
+            }
+        }
+
     }
 
 }
