@@ -19,9 +19,13 @@ class MainPageViewModel(
     val state: LiveData<MainPageState>
         get() = stateLiveData
 
-    fun loadData() {
+    fun loadData(byRefresh: Boolean = false) {
         viewModelScope.launch {
-            stateLiveData.postValue(MainPageState.Loading)
+            if (byRefresh) {
+                stateLiveData.postValue(MainPageState.Refreshing)
+            } else {
+                stateLiveData.postValue(MainPageState.Loading)
+            }
             try {
                 val topBestFilms = getTopFilms(FilmsTopType.TOP_250_BEST_FILMS, 1)
                 val topPopularFilms = getTopFilms(FilmsTopType.TOP_100_POPULAR_FILMS, 1)

@@ -48,7 +48,7 @@ class FilmDetailsFragment : Fragment() {
         binding.filmFramesView.adapter = filmFramesAdapter
 
         binding.root.setOnRefreshListener {
-            filmViewModel.loadFilmById(filmId)
+            filmViewModel.loadFilmById(filmId, byRefresh = true)
         }
 
         filmViewModel.state.observe(viewLifecycleOwner, this::showNewState)

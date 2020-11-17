@@ -53,7 +53,7 @@ class MainPageFragment : Fragment() {
         binding.topAwaitFilms.topFilmsView.adapter = topAwaitFilmsAdapter
 
         binding.root.setOnRefreshListener {
-            mainPageViewModel.loadData()
+            mainPageViewModel.loadData(byRefresh = true)
         }
 
         mainPageViewModel.state.observe(viewLifecycleOwner, this::showNewState)

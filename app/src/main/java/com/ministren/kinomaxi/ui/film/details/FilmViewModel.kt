@@ -17,9 +17,13 @@ class FilmViewModel(
     val state: LiveData<FilmViewState>
         get() = stateLiveData
 
-    fun loadFilmById(id: Long) {
+    fun loadFilmById(id: Long, byRefresh: Boolean = false) {
         viewModelScope.launch {
-            stateLiveData.postValue(FilmViewState.Loading)
+            if (byRefresh) {
+                stateLiveData.postValue(FilmViewState.Refreshing)
+            } else {
+                stateLiveData.postValue(FilmViewState.Loading)
+            }
             try {
                 val film = getFilmById(id)
                 stateLiveData.postValue(FilmViewState.Loaded(film))
