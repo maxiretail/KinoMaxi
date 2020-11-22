@@ -1,10 +1,14 @@
 package com.ministren.kinomaxi.di
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ministren.kinomaxi.App
 import com.ministren.kinomaxi.business.GetFilmByIdImpl
 import com.ministren.kinomaxi.business.GetTopFilmsImpl
+import com.ministren.kinomaxi.business.fav_films.FavFilmUseCaseImpl
+import com.ministren.kinomaxi.db.fav_film.FavFilmService
+import com.ministren.kinomaxi.db.fav_film.FavFilmServiceImpl
 import com.ministren.kinomaxi.network.ApiService
 import com.ministren.kinomaxi.ui.film.details.FilmViewModel
 import com.ministren.kinomaxi.ui.main.MainPageViewModel
@@ -15,37 +19,53 @@ import retrofit2.converter.gson.GsonConverterFactory
 /**
  * Фабрика для создания ViewModel'ей
  */
-class ViewModelFactory : ViewModelProvider.Factory {
+class ViewModelFactory private constructor(private val appContext: Context) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        val favFilmService = FavFilmServiceImpl(appContext)
+        val favFilmUseCase = FavFilmUseCaseImpl(favFilmService)
+
         if (modelClass.isAssignableFrom(FilmViewModel::class.java)) {
-            return FilmViewModel(GetFilmByIdImpl(apiService)) as T
+            return FilmViewModel(
+                    GetFilmByIdImpl(apiService),
+                    favFilmUseCase
+            ) as T
         }
         if (modelClass.isAssignableFrom(MainPageViewModel::class.java)) {
-            return MainPageViewModel(GetTopFilmsImpl(apiService)) as T
+            return MainPageViewModel(
+                    GetTopFilmsImpl(apiService),
+                    favFilmUseCase
+            ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 
     companion object {
 
-        val instance = ViewModelFactory()
+        private var instance: ViewModelFactory? = null
+
+        fun getSingleton(appContext: Context): ViewModelFactory {
+            if (instance == null) {
+                instance = ViewModelFactory(appContext)
+            }
+            return instance!!
+        }
 
         private val httpClient: OkHttpClient = OkHttpClient.Builder()
-            .addInterceptor {
-                val request = it.request().newBuilder()
-                    .addHeader("X-API-KEY", App.API_KEY)
-                    .build()
-                it.proceed(request)
-            }
-            .build()
+                .addInterceptor {
+                    val request = it.request().newBuilder()
+                            .addHeader("X-API-KEY", App.API_KEY)
+                            .build()
+                    it.proceed(request)
+                }
+                .build()
 
         private val retrofit: Retrofit = Retrofit.Builder()
-            .client(httpClient)
-            .baseUrl(App.API_BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+                .client(httpClient)
+                .baseUrl(App.API_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
 
         private val apiService: ApiService = retrofit.create(ApiService::class.java)
 

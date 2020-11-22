@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
@@ -18,7 +19,9 @@ class FilmDetailsFragment : Fragment() {
     private var _binding: FragmentFilmDetailsBinding? = null
     private val binding get() = _binding!!
 
-    private val filmViewModel: FilmViewModel by viewModels() { ViewModelFactory.instance }
+    private val filmViewModel: FilmViewModel by viewModels() {
+        ViewModelFactory.getSingleton(requireActivity().applicationContext)
+    }
     private val filmFramesAdapter = FilmFramesAdapter()
 
     private var filmId: Long = 0
@@ -46,12 +49,16 @@ class FilmDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.filmFramesView.adapter = filmFramesAdapter
+        binding.filmPosterLayout.favIcon.setOnClickListener {
+            filmViewModel.addFavorite()
+        }
 
         binding.root.setOnRefreshListener {
             filmViewModel.loadFilmById(filmId, byRefresh = true)
         }
 
         filmViewModel.state.observe(viewLifecycleOwner, this::showNewState)
+        filmViewModel.toast.observe(viewLifecycleOwner, this::showToast)
 
         if (filmViewModel.state.value == null) {
             filmViewModel.loadFilmById(filmId)
@@ -107,6 +114,12 @@ class FilmDetailsFragment : Fragment() {
         }
 
         filmFramesAdapter.setItems(film.frames)
+    }
+
+    fun showToast(toast: ToastViewState) {
+        if (!toast.showed) {
+            Toast.makeText(requireContext(), toast.messageResource, Toast.LENGTH_SHORT).show()
+        }
     }
 
     companion object {

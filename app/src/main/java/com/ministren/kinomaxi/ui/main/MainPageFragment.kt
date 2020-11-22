@@ -1,5 +1,7 @@
 package com.ministren.kinomaxi.ui.main
 
+import android.app.Activity
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,12 +9,16 @@ import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import com.ministren.kinomaxi.R
 import com.ministren.kinomaxi.databinding.FragmentMainPageBinding
 import com.ministren.kinomaxi.di.ViewModelFactory
+import com.ministren.kinomaxi.entity.FavFilm
+import com.ministren.kinomaxi.entity.Film
 import com.ministren.kinomaxi.entity.FilmsTopType
 import com.ministren.kinomaxi.ui.film.details.FilmDetailsFragment
 import com.ministren.kinomaxi.ui.main.entity.MainPageData
+import com.ministren.kinomaxi.ui.main.top.FilmItemViewData
 import com.ministren.kinomaxi.ui.main.top.TopFilmsAdapter
 
 class MainPageFragment : Fragment() {
@@ -20,7 +26,10 @@ class MainPageFragment : Fragment() {
     private var _binding: FragmentMainPageBinding? = null
     private val binding get() = _binding!!
 
-    private val mainPageViewModel: MainPageViewModel by viewModels() { ViewModelFactory.instance }
+    private val mainPageViewModel: MainPageViewModel by viewModels() {
+        ViewModelFactory.getSingleton(requireActivity().applicationContext)
+    }
+    private val favoriteFilmsAdapter = TopFilmsAdapter(this::onFilmClick)
     private val topBestFilmsAdapter = TopFilmsAdapter(this::onFilmClick)
     private val topPopularFilmsAdapter = TopFilmsAdapter(this::onFilmClick)
     private val topAwaitFilmsAdapter = TopFilmsAdapter(this::onFilmClick)
@@ -48,6 +57,7 @@ class MainPageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.favFilms.topFilmsView.adapter = favoriteFilmsAdapter
         binding.topBestFilms.topFilmsView.adapter = topBestFilmsAdapter
         binding.topPopularFilms.topFilmsView.adapter = topPopularFilmsAdapter
         binding.topAwaitFilms.topFilmsView.adapter = topAwaitFilmsAdapter
@@ -58,9 +68,7 @@ class MainPageFragment : Fragment() {
 
         mainPageViewModel.state.observe(viewLifecycleOwner, this::showNewState)
 
-        if (mainPageViewModel.state.value == null) {
-            mainPageViewModel.loadData()
-        }
+        mainPageViewModel.loadData()
     }
 
     private fun onFilmClick(filmId: Long) {
@@ -102,13 +110,20 @@ class MainPageFragment : Fragment() {
     }
 
     private fun showData(data: MainPageData) {
+        binding.favFilms.root.visibility = if (data.favFilms.isEmpty()) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+        binding.favFilms.topFilmsTitle.text = getString(R.string.fav_film_list_title)
         binding.topBestFilms.topFilmsTitle.text = data.topBestFilms.type.getTitle()
         binding.topPopularFilms.topFilmsTitle.text = data.topPopularFilms.type.getTitle()
         binding.topAwaitFilms.topFilmsTitle.text = data.topAwaitFilms.type.getTitle()
 
-        topBestFilmsAdapter.setItems(data.topBestFilms.films)
-        topPopularFilmsAdapter.setItems(data.topPopularFilms.films)
-        topAwaitFilmsAdapter.setItems(data.topAwaitFilms.films)
+        favoriteFilmsAdapter.setItems(data.favFilms.map { it.toFilmItemViewData() })
+        topBestFilmsAdapter.setItems(data.topBestFilms.films.map { it.toFilmItemViewData() })
+        topPopularFilmsAdapter.setItems(data.topPopularFilms.films.map { it.toFilmItemViewData() })
+        topAwaitFilmsAdapter.setItems(data.topAwaitFilms.films.map { it.toFilmItemViewData() })
     }
 
     private fun FilmsTopType.getTitle(): String {
@@ -120,3 +135,13 @@ class MainPageFragment : Fragment() {
         return getString(stringResId)
     }
 }
+
+private fun Film.toFilmItemViewData() = FilmItemViewData(
+    id = id,
+    posterUrl = posterUrl
+)
+
+private fun FavFilm.toFilmItemViewData() = FilmItemViewData(
+    id = filmId,
+    posterUrl = posterUrl
+)
