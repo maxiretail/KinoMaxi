@@ -19,9 +19,7 @@ class FilmDetailsFragment : Fragment() {
     private var _binding: FragmentFilmDetailsBinding? = null
     private val binding get() = _binding!!
 
-    private val filmViewModel: FilmViewModel by viewModels() {
-        ViewModelFactory.getSingleton(requireActivity().applicationContext)
-    }
+    private val filmViewModel: FilmViewModel by viewModels() { ViewModelFactory.instance }
     private val filmFramesAdapter = FilmFramesAdapter()
 
     private var filmId: Long = 0
@@ -116,7 +114,7 @@ class FilmDetailsFragment : Fragment() {
         filmFramesAdapter.setItems(film.frames)
     }
 
-    fun showToast(toast: ToastViewState) {
+    private fun showToast(toast: ToastViewState) {
         if (!toast.showed) {
             Toast.makeText(requireContext(), toast.messageResource, Toast.LENGTH_SHORT).show()
         }

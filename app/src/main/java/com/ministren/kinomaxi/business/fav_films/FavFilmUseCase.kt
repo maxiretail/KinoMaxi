@@ -2,6 +2,7 @@ package com.ministren.kinomaxi.business.fav_films
 
 import com.ministren.kinomaxi.entity.FavFilm
 import com.ministren.kinomaxi.entity.Film
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Бизнес-логика для работы с избранными фильмами
@@ -15,5 +16,5 @@ interface FavFilmUseCase {
     /**
      * Получить список фильмов в избранном
      */
-    suspend fun getAll(): List<FavFilm>
+    fun getAll(): Flow<List<FavFilm>>
 }

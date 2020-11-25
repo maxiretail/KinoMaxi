@@ -1,6 +1,7 @@
 package com.ministren.kinomaxi.db.fav_film
 
 import com.ministren.kinomaxi.entity.FavFilm
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Сервис для работы с избранными
@@ -15,5 +16,5 @@ interface FavFilmService {
     /**
      * Получить список избранных фильмов
      */
-    suspend fun getAll(): List<FavFilm>
+    fun getAll(): Flow<List<FavFilm>>
 }
