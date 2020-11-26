@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Сервис для работы с избранными фильмами
@@ -20,5 +21,5 @@ interface FavFilmDAO {
      * Получить список избранных фильмов
      */
     @Query("SELECT * FROM fav_film ORDER BY id DESC")
-    suspend fun getAll(): List<DBFavFilm>
+    fun getAll(): Flow<List<DBFavFilm>>
 }

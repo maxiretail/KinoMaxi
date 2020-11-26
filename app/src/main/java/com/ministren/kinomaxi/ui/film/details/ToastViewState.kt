@@ -7,10 +7,11 @@ import androidx.annotation.StringRes
  */
 class ToastViewState(@StringRes private val messageRes: Int) {
     val messageResource: Int
-    get() {
-        showed = true
-        return messageRes
-    }
+        get() {
+            showed = true
+            return messageRes
+        }
+
     var showed: Boolean = false
-    private set
+        private set
 }

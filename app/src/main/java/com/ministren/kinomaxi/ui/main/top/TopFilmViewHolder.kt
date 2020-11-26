@@ -3,6 +3,7 @@ package com.ministren.kinomaxi.ui.main.top
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ministren.kinomaxi.databinding.ItemTopFilmBinding
+import com.ministren.kinomaxi.ui.main.entity.FilmItemViewData
 
 /**
  * Класс для отображения элемента списка топ фильмов

@@ -1,4 +1,4 @@
-package com.ministren.kinomaxi.ui.main.top
+package com.ministren.kinomaxi.ui.main.entity
 
 /**
  * Элемент списка фильмов на главной

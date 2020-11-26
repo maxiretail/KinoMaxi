@@ -3,6 +3,7 @@ package com.ministren.kinomaxi.business.fav_films
 import com.ministren.kinomaxi.db.fav_film.FavFilmService
 import com.ministren.kinomaxi.entity.FavFilm
 import com.ministren.kinomaxi.entity.Film
+import kotlinx.coroutines.flow.Flow
 
 class FavFilmUseCaseImpl(private val favFilmService: FavFilmService): FavFilmUseCase {
 
@@ -11,7 +12,7 @@ class FavFilmUseCaseImpl(private val favFilmService: FavFilmService): FavFilmUse
         favFilmService.save(favFilm)
     }
 
-    override suspend fun getAll(): List<FavFilm> {
+    override fun getAll(): Flow<List<FavFilm>> {
         return favFilmService.getAll()
     }
 }

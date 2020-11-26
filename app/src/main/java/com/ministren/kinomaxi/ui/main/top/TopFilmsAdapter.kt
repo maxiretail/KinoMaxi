@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ministren.kinomaxi.databinding.ItemTopFilmBinding
+import com.ministren.kinomaxi.ui.main.entity.FilmItemViewData
 
 /**
  * Адаптер для списка топ фильмов
