@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ministren.kinomaxi.databinding.ItemTopFilmBinding
-import com.ministren.kinomaxi.entity.Film
+import com.ministren.kinomaxi.ui.main.entity.FilmItemViewData
 
 /**
  * Адаптер для списка топ фильмов
@@ -13,7 +13,7 @@ class TopFilmsAdapter(
     private val onFilmClick: (filmId: Long) -> Unit,
 ) : RecyclerView.Adapter<TopFilmViewHolder>() {
 
-    private val items = mutableListOf<Film>()
+    private val items = mutableListOf<FilmItemViewData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopFilmViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -30,7 +30,7 @@ class TopFilmsAdapter(
     /**
      * Установить новый список фильмов [films] для отображения
      */
-    fun setItems(films: List<Film>) {
+    fun setItems(films: List<FilmItemViewData>) {
         items.clear()
         items.addAll(films)
         notifyDataSetChanged()

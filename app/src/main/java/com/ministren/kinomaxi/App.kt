@@ -1,8 +1,14 @@
 package com.ministren.kinomaxi
 
 import android.app.Application
+import com.ministren.kinomaxi.di.ViewModelFactory
 
 class App : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+        ViewModelFactory.instance = ViewModelFactory.Builder().setContext(this).build()
+    }
 
     companion object {
         const val API_BASE_URL = "https://kinopoiskapiunofficial.tech"

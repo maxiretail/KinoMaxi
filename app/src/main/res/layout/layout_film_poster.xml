@@ -16,6 +16,17 @@
         tools:ignore="ContentDescription"
         tools:src="@drawable/matrix_poster" />
 
+    <ImageButton
+        android:id="@+id/fav_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:background="@drawable/fav_button_background"/>
+
     <TextView
         android:id="@+id/film_age_rating"
         android:layout_width="wrap_content"

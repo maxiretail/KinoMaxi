@@ -10,8 +10,11 @@ import androidx.fragment.app.viewModels
 import com.ministren.kinomaxi.R
 import com.ministren.kinomaxi.databinding.FragmentMainPageBinding
 import com.ministren.kinomaxi.di.ViewModelFactory
+import com.ministren.kinomaxi.entity.FavFilm
+import com.ministren.kinomaxi.entity.Film
 import com.ministren.kinomaxi.entity.FilmsTopType
 import com.ministren.kinomaxi.ui.film.details.FilmDetailsFragment
+import com.ministren.kinomaxi.ui.main.entity.FilmItemViewData
 import com.ministren.kinomaxi.ui.main.entity.MainPageData
 import com.ministren.kinomaxi.ui.main.top.TopFilmsAdapter
 
@@ -21,6 +24,8 @@ class MainPageFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val mainPageViewModel: MainPageViewModel by viewModels() { ViewModelFactory.instance }
+
+    private val favoriteFilmsAdapter = TopFilmsAdapter(this::onFilmClick)
     private val topBestFilmsAdapter = TopFilmsAdapter(this::onFilmClick)
     private val topPopularFilmsAdapter = TopFilmsAdapter(this::onFilmClick)
     private val topAwaitFilmsAdapter = TopFilmsAdapter(this::onFilmClick)
@@ -48,6 +53,7 @@ class MainPageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.favFilms.topFilmsView.adapter = favoriteFilmsAdapter
         binding.topBestFilms.topFilmsView.adapter = topBestFilmsAdapter
         binding.topPopularFilms.topFilmsView.adapter = topPopularFilmsAdapter
         binding.topAwaitFilms.topFilmsView.adapter = topAwaitFilmsAdapter
@@ -57,6 +63,7 @@ class MainPageFragment : Fragment() {
         }
 
         mainPageViewModel.state.observe(viewLifecycleOwner, this::showNewState)
+        mainPageViewModel.favorites.observe(viewLifecycleOwner, this::showFavorites)
 
         if (mainPageViewModel.state.value == null) {
             mainPageViewModel.loadData()
@@ -106,9 +113,15 @@ class MainPageFragment : Fragment() {
         binding.topPopularFilms.topFilmsTitle.text = data.topPopularFilms.type.getTitle()
         binding.topAwaitFilms.topFilmsTitle.text = data.topAwaitFilms.type.getTitle()
 
-        topBestFilmsAdapter.setItems(data.topBestFilms.films)
-        topPopularFilmsAdapter.setItems(data.topPopularFilms.films)
-        topAwaitFilmsAdapter.setItems(data.topAwaitFilms.films)
+        topBestFilmsAdapter.setItems(data.topBestFilms.films.map { it.toFilmItemViewData() })
+        topPopularFilmsAdapter.setItems(data.topPopularFilms.films.map { it.toFilmItemViewData() })
+        topAwaitFilmsAdapter.setItems(data.topAwaitFilms.films.map { it.toFilmItemViewData() })
+    }
+
+    private fun showFavorites(favoriteFilms: List<FavFilm>) {
+        binding.favFilms.root.visibility = if (favoriteFilms.isEmpty()) View.GONE else View.VISIBLE
+        binding.favFilms.topFilmsTitle.text = getString(R.string.fav_film_list_title)
+        favoriteFilmsAdapter.setItems(favoriteFilms.map { it.toFilmItemViewData() })
     }
 
     private fun FilmsTopType.getTitle(): String {
@@ -120,3 +133,13 @@ class MainPageFragment : Fragment() {
         return getString(stringResId)
     }
 }
+
+private fun Film.toFilmItemViewData() = FilmItemViewData(
+    id = id,
+    posterUrl = posterUrl
+)
+
+private fun FavFilm.toFilmItemViewData() = FilmItemViewData(
+    id = filmId,
+    posterUrl = posterUrl
+)

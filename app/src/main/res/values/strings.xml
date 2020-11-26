@@ -11,4 +11,7 @@
     <string name="top_await_title">Топ ожидаемых</string>
 
     <string name="error_loading">При загрузке произошла ошибка.\nПожалуйста, проверьте наличие интернет-соединения.</string>
+
+    <string name="fav_film_add">Фильм добавлен в избранное</string>
+    <string name="fav_film_list_title">Избранное</string>
 </resources>
