@@ -1,16 +1,18 @@
 package ru.maxi.study.kinomaxi
 
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import ru.maxi.study.kinomaxi.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val film = Film(
             id = 263531,
@@ -35,37 +37,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showFilmInfo(film: Film) {
-        val filmGenresTextView = findViewById<TextView>(R.id.film_genres)
-        val filmNameRusTextView = findViewById<TextView>(R.id.film_name_rus)
-        val filmNameEngTextView = findViewById<TextView>(R.id.film_name_eng)
-        val filmSloganTextView = findViewById<TextView>(R.id.film_slogan)
-        val filmYearTextView = findViewById<TextView>(R.id.film_year)
-        val filmLengthTextView = findViewById<TextView>(R.id.film_length)
-        val filmDescriptionTextView = findViewById<TextView>(R.id.film_description)
-        val filmAgeRatingTextView = findViewById<TextView>(R.id.film_age_rating)
+        with(binding.filmDetailsLayout) {
+            filmGenres.text = film.genres.joinToString(separator = ", ")
+            filmNameRus.text = film.nameRus
+            filmNameEng.text = film.nameEng
+            filmSlogan.text = film.slogan
+            filmYear.text = film.year.toString()
+            filmLength.text = getString(R.string.film_length_value, film.length)
+        }
 
-        filmGenresTextView.text = film.genres.joinToString(separator = ", ")
-        filmNameRusTextView.text = film.nameRus
-        filmNameEngTextView.text = film.nameEng
-        filmSloganTextView.text = film.slogan
-        filmYearTextView.text = film.year.toString()
-        filmLengthTextView.text = getString(R.string.film_length_value, film.length)
-        filmDescriptionTextView.text = film.description
-        filmAgeRatingTextView.text = getString(R.string.film_age_rating, film.ageRating)
+        binding.filmDescription.text = film.description
 
-        val filmPosterImageView = findViewById<ImageView>(R.id.film_poster)
-        Glide.with(this).load(film.posterUrl).into(filmPosterImageView)
+        with(binding.filmPosterLayout) {
+            filmAgeRating.text = getString(R.string.film_age_rating, film.ageRating)
+            Glide.with(this@MainActivity).load(film.posterUrl).into(filmPoster)
+        }
 
-        val filmFrame1ImageView = findViewById<ImageView>(R.id.film_frame_1)
-        val filmFrame2ImageView = findViewById<ImageView>(R.id.film_frame_2)
-        val filmFrame3ImageView = findViewById<ImageView>(R.id.film_frame_3)
-        val filmFrame4ImageView = findViewById<ImageView>(R.id.film_frame_4)
-        val filmFrame5ImageView = findViewById<ImageView>(R.id.film_frame_5)
-        Glide.with(this).load(film.frameUrls[0]).into(filmFrame1ImageView)
-        Glide.with(this).load(film.frameUrls[1]).into(filmFrame2ImageView)
-        Glide.with(this).load(film.frameUrls[2]).into(filmFrame3ImageView)
-        Glide.with(this).load(film.frameUrls[3]).into(filmFrame4ImageView)
-        Glide.with(this).load(film.frameUrls[4]).into(filmFrame5ImageView)
+        with(Glide.with(this)) {
+            load(film.frameUrls[0]).into(binding.filmFrame1)
+            load(film.frameUrls[1]).into(binding.filmFrame2)
+            load(film.frameUrls[2]).into(binding.filmFrame3)
+            load(film.frameUrls[3]).into(binding.filmFrame4)
+            load(film.frameUrls[4]).into(binding.filmFrame5)
+        }
     }
 
 }
