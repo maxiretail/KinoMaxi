@@ -12,6 +12,8 @@ import com.ministren.kinomaxi.R
 import com.ministren.kinomaxi.databinding.FragmentFilmDetailsBinding
 import com.ministren.kinomaxi.di.ViewModelFactory
 import com.ministren.kinomaxi.entity.Film
+import com.ministren.kinomaxi.extensions.setSubtitle
+import com.ministren.kinomaxi.extensions.setTitle
 import com.ministren.kinomaxi.ui.film.frames.FilmFramesAdapter
 
 class FilmDetailsFragment : Fragment() {
@@ -33,7 +35,7 @@ class FilmDetailsFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         _binding = FragmentFilmDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -96,6 +98,8 @@ class FilmDetailsFragment : Fragment() {
 
     private fun showFilmInfo(film: Film) {
         with(binding.filmDetailsLayout) {
+            setTitle(film.nameRus)
+            setSubtitle(film.nameEng)
             filmGenres.text = film.genres.joinToString(separator = ", ")
             filmNameRus.text = film.nameRus
             filmNameEng.text = film.nameEng
