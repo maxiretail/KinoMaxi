@@ -23,11 +23,11 @@
         android:layout_margin="8dp"
         android:background="@drawable/bg_age_limit"
         android:gravity="center"
-        android:text="16+"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/film_poster"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="@id/film_poster" />
+        app:layout_constraintEnd_toEndOf="@id/film_poster"
+        tools:text="16+" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
