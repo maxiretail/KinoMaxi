@@ -4,15 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.ministren.kinomaxi.MainActivity
 import com.ministren.kinomaxi.R
 import com.ministren.kinomaxi.databinding.FragmentMainPageBinding
 import com.ministren.kinomaxi.di.ViewModelFactory
 import com.ministren.kinomaxi.entity.FavFilm
 import com.ministren.kinomaxi.entity.Film
 import com.ministren.kinomaxi.entity.FilmsTopType
+import com.ministren.kinomaxi.extensions.setSubtitle
+import com.ministren.kinomaxi.extensions.setTitle
 import com.ministren.kinomaxi.ui.film.details.FilmDetailsFragment
 import com.ministren.kinomaxi.ui.main.entity.FilmItemViewData
 import com.ministren.kinomaxi.ui.main.entity.MainPageData
@@ -30,17 +32,11 @@ class MainPageFragment : Fragment() {
     private val topPopularFilmsAdapter = TopFilmsAdapter(this::onFilmClick)
     private val topAwaitFilmsAdapter = TopFilmsAdapter(this::onFilmClick)
 
-    @IdRes
-    private var containerResId: Int = 0
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
-        container?.let {
-            containerResId = it.id
-        }
+    ): View {
         _binding = FragmentMainPageBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -71,10 +67,7 @@ class MainPageFragment : Fragment() {
     }
 
     private fun onFilmClick(filmId: Long) {
-        parentFragmentManager.beginTransaction()
-            .replace(containerResId, FilmDetailsFragment.getInstance(filmId))
-            .addToBackStack(null)
-            .commit()
+        (activity as? MainActivity)?.showFragment(FilmDetailsFragment.getInstance(filmId))
     }
 
     private fun showNewState(state: MainPageState) {
@@ -109,6 +102,9 @@ class MainPageFragment : Fragment() {
     }
 
     private fun showData(data: MainPageData) {
+        setTitle(getString(R.string.app_name))
+        setSubtitle(null)
+
         binding.topBestFilms.topFilmsTitle.text = data.topBestFilms.type.getTitle()
         binding.topPopularFilms.topFilmsTitle.text = data.topPopularFilms.type.getTitle()
         binding.topAwaitFilms.topFilmsTitle.text = data.topAwaitFilms.type.getTitle()
