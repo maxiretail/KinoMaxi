@@ -9,10 +9,14 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    private val filmFramesAdapter = FilmFramesAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.filmFramesView.adapter = filmFramesAdapter
 
         val film = Film(
             id = 263531,
@@ -53,13 +57,7 @@ class MainActivity : AppCompatActivity() {
             Glide.with(this@MainActivity).load(film.posterUrl).into(filmPoster)
         }
 
-        with(Glide.with(this)) {
-            load(film.frameUrls[0]).into(binding.filmFrame1)
-            load(film.frameUrls[1]).into(binding.filmFrame2)
-            load(film.frameUrls[2]).into(binding.filmFrame3)
-            load(film.frameUrls[3]).into(binding.filmFrame4)
-            load(film.frameUrls[4]).into(binding.filmFrame5)
-        }
+        filmFramesAdapter.setItems(film.frameUrls)
     }
 
 }
