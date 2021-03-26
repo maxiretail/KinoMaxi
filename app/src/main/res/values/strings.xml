@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">KinoMaxi</string>
+
+    <string name="film_age_rating">%1$d+</string>
+    <string name="film_year_description">Год производства</string>
+    <string name="film_length_description">Продолжительность</string>
+    <string name="film_length_value">%1$d мин.</string>
 </resources>
