@@ -4,8 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import okhttp3.OkHttpClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import ru.maxi.study.kinomaxi.databinding.FragmentFilmDetailsBinding
 
 class FilmDetailsFragment : Fragment() {
@@ -15,25 +22,25 @@ class FilmDetailsFragment : Fragment() {
 
     private val filmFramesAdapter = FilmFramesAdapter()
 
-    private val film = Film(
-        id = 263531,
-        genres = listOf("боевик", "фантастика", "фэнтези"),
-        nameRus = "Мстители",
-        nameEng = "The Avengers",
-        slogan = "Avengers Assemble!",
-        year = 2012,
-        length = 137,
-        description = "Локи, сводный брат Тора, возвращается, и в этот раз он не один. Земля оказывается на грани порабощения, и только лучшие из лучших могут спасти человечество. Глава международной организации Щ.И.Т. Ник Фьюри собирает выдающихся поборников справедливости и добра, чтобы отразить атаку. Под предводительством Капитана Америки Железный Человек, Тор, Невероятный Халк, Соколиный Глаз и Чёрная Вдова вступают в войну с захватчиком.",
-        ageRating = 12,
-        posterUrl = "https://avatars.mds.yandex.net/get-kinopoisk-image/1600647/afab999b-c6bb-4fac-a951-03f72fd2b8cf/600x900",
-        frameUrls = listOf(
-            "https://avatars.mds.yandex.net/get-kinopoisk-image/1898899/fc13a70c-abac-440d-b88a-eb5343156030/960x960",
-            "https://avatars.mds.yandex.net/get-kinopoisk-image/1777765/48e7ffab-3544-461e-a396-998ad18c8dac/960x960",
-            "https://avatars.mds.yandex.net/get-kinopoisk-image/1777765/c408a4ef-19e0-4ec0-8337-f1d8c40fafb9/960x960",
-            "https://avatars.mds.yandex.net/get-kinopoisk-image/1946459/b7c88a5e-ad0a-4869-979a-4865d6d4a9c8/960x960",
-            "https://avatars.mds.yandex.net/get-kinopoisk-image/1773646/ff64737a-fcfa-4b5c-88ba-4e6259069282/960x960",
-        )
-    )
+    private val BASE_URL = "https://kinopoiskapiunofficial.tech"
+    private val API_KEY = "06e6c6a0-6bd0-4d26-9473-d39fa28f75bb"
+
+    private val httpClient = OkHttpClient.Builder()
+        .addInterceptor { chain ->
+            val request = chain.request().newBuilder()
+                .addHeader("X-API-KEY", API_KEY)
+                .build()
+            chain.proceed(request)
+        }
+        .build()
+
+    private val retrofit = Retrofit.Builder()
+        .client(httpClient)
+        .baseUrl(BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    private val apiService = retrofit.create(KinopoiskApiService::class.java)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,7 +59,22 @@ class FilmDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.filmFramesView.adapter = filmFramesAdapter
-        showFilmInfo(film)
+
+        val filmDataCall = apiService.getFilmData(263531)
+        filmDataCall.enqueue(object : Callback<RestFilmDataResponse> {
+            override fun onResponse(
+                call: Call<RestFilmDataResponse>,
+                response: Response<RestFilmDataResponse>,
+            ) {
+                val filmData = response.body()?.film ?: return
+                binding.filmDetailsLayout.filmNameRus.text = filmData.nameRus
+                binding.filmDetailsLayout.filmNameEng.text = filmData.nameEng
+            }
+
+            override fun onFailure(call: Call<RestFilmDataResponse>, t: Throwable) {
+                Toast.makeText(context, t.localizedMessage, Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     private fun showFilmInfo(film: Film) {
